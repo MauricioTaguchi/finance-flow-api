@@ -1,19 +1,27 @@
 # FinanceFlow API
 
-API REST desenvolvida em Java com Spring Boot para cadastro e consulta de transações financeiras.
+API REST desenvolvida com **Java e Spring Boot** para cadastro e consulta de transações financeiras.
 
-O projeto demonstra, na prática, padrões de projeto clássicos do GoF e abstrações do Spring Framework.
+O projeto demonstra a aplicação prática de padrões de projeto, organização de camadas e construção de endpoints REST para controle financeiro.
 
-## Padrões aplicados
+## Objetivo do projeto
 
-- Strategy: diferentes formas de notificação.
-- Factory: escolha da estratégia de notificação.
-- Observer: eventos do Spring após o cadastro de uma transação.
-- Facade: centralização do fluxo de cadastro.
-- Repository: persistência com Spring Data JPA.
-- Injeção de dependências: gerenciamento de componentes pelo Spring.
+O objetivo do FinanceFlow API é simular uma aplicação backend para gerenciamento de transações financeiras, permitindo cadastrar, listar e consultar movimentações.
 
-## Tecnologias
+Além das funcionalidades principais, o projeto foi desenvolvido para demonstrar o uso de **padrões de projeto GoF** em um contexto prático com Spring Boot.
+
+## Funcionalidades
+
+- Cadastro de transações financeiras
+- Listagem de transações
+- Busca de transação por ID
+- Validação dos dados de entrada
+- Persistência em banco H2
+- Notificações simuladas por diferentes estratégias
+- Aplicação de padrões de projeto
+- Separação de responsabilidades em camadas
+
+## Tecnologias utilizadas
 
 - Java 17
 - Spring Boot
@@ -23,9 +31,22 @@ O projeto demonstra, na prática, padrões de projeto clássicos do GoF e abstra
 - H2 Database
 - Maven
 
-## Como executar
+## Padrões de projeto aplicados
 
-É necessário ter o Java 17 ou superior instalado. O Maven não precisa estar instalado, pois o projeto contém o Maven Wrapper.
+| Padrão | Aplicação no projeto |
+|---|---|
+| Strategy | Define diferentes formas de notificação, como e-mail, SMS e push |
+| Factory | Escolhe dinamicamente a estratégia de notificação |
+| Observer | Utiliza eventos do Spring após o cadastro de uma transação |
+| Facade | Centraliza o fluxo de cadastro de transações |
+| Repository | Abstrai a camada de persistência com Spring Data JPA |
+| Dependency Injection | Gerencia componentes por meio do Spring Framework |
+
+## Como executar o projeto
+
+É necessário ter **Java 17 ou superior** instalado.
+
+O Maven não precisa estar instalado separadamente, pois o projeto utiliza Maven Wrapper.
 
 No terminal, dentro da pasta do projeto, execute:
 
@@ -43,12 +64,12 @@ http://localhost:8080
 
 ### Cadastrar uma transação
 
-```http
+```text
 POST /transactions
 Content-Type: application/json
 ```
 
-Exemplo:
+Exemplo de requisição:
 
 ```json
 {
@@ -61,19 +82,21 @@ Exemplo:
 
 Tipos de notificação disponíveis:
 
-- EMAIL
-- SMS
-- PUSH
+```text
+EMAIL
+SMS
+PUSH
+```
 
 ### Listar transações
 
-```http
+```text
 GET /transactions
 ```
 
 ### Buscar transação por ID
 
-```http
+```text
 GET /transactions/{id}
 ```
 
@@ -93,15 +116,40 @@ User Name: sa
 Password:
 ```
 
-## Como enviar ao GitHub
+## Estrutura sugerida do projeto
 
-Crie um repositório vazio no GitHub e execute:
-
-```bash
-git init
-git branch -M main
-git add .
-git commit -m "Adiciona projeto FinanceFlow com Design Patterns"
-git remote add origin https://github.com/SEU-USUARIO/finance-flow-api.git
-git push -u origin main
+```text
+finance-flow-api/
+├── src/
+│   └── main/
+│       └── java/
+│           └── ...
+├── pom.xml
+├── mvnw.cmd
+└── README.md
 ```
+
+## O que este projeto demonstra
+
+- Criação de APIs REST com Spring Boot
+- Aplicação prática de Design Patterns
+- Validação de dados com Bean Validation
+- Persistência com Spring Data JPA
+- Uso de banco H2 para ambiente local
+- Organização de endpoints e regras de negócio
+- Estruturação de projeto backend para portfólio
+
+## Melhorias futuras
+
+- Adicionar autenticação com JWT
+- Criar documentação com Swagger/OpenAPI
+- Implementar testes unitários
+- Adicionar banco PostgreSQL
+- Criar filtros por categoria e período
+- Implementar atualização e exclusão de transações
+- Adicionar deploy em nuvem
+
+## Autor
+
+Maurício Ryo Toita Taguchi  
+GitHub: [MauricioTaguchi](https://github.com/MauricioTaguchi)
