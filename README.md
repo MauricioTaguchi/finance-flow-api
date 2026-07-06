@@ -116,7 +116,7 @@ User Name: sa
 Password:
 ```
 
-## Estrutura sugerida do projeto
+## Estrutura do projeto
 
 ```text
 finance-flow-api/
