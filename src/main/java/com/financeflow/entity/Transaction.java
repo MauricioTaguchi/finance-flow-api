@@ -21,8 +21,8 @@ public class Transaction {
     @Column(nullable = false)
     private String description;
 
-   @Column(name = "transaction_value", nullable = false, precision = 15, scale = 2)
-private BigDecimal value;
+    @Column(name = "transaction_value", nullable = false, precision = 15, scale = 2)
+    private BigDecimal value;
 
     @Column(nullable = false)
     private String category;
@@ -39,10 +39,19 @@ private BigDecimal value;
             String category,
             LocalDateTime createdAt
     ) {
-        this.description = description;
-        this.value = value;
-        this.category = category;
-        this.createdAt = createdAt;
+        if (description == null || description.isBlank()) {
+            throw new IllegalArgumentException("A descrição é obrigatória.");
+        }
+        if (value == null || value.signum() <= 0) {
+            throw new IllegalArgumentException("O valor deve ser maior que zero.");
+        }
+        if (category == null || category.isBlank()) {
+            throw new IllegalArgumentException("A categoria é obrigatória.");
+        }
+        this.description = description.trim();
+        this.value = value.setScale(2, java.math.RoundingMode.HALF_UP);
+        this.category = category.trim().toUpperCase(java.util.Locale.ROOT);
+        this.createdAt = createdAt == null ? LocalDateTime.now() : createdAt;
     }
 
     public Long getId() {
