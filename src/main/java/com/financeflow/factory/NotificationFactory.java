@@ -15,6 +15,9 @@ public class NotificationFactory {
     }
 
     public NotificationStrategy getStrategy(String type) {
+        if (type == null || type.isBlank()) {
+            throw new IllegalArgumentException("O tipo de notificação é obrigatório.");
+        }
         return strategies.stream()
                 .filter(strategy -> strategy.getType().equalsIgnoreCase(type))
                 .findFirst()
