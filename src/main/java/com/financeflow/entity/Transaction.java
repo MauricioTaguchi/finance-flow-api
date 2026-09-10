@@ -9,6 +9,8 @@ import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "transactions")
@@ -17,6 +19,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "owner_id")
+    private UUID ownerId;
 
     @Column(nullable = false)
     private String description;
@@ -57,6 +62,14 @@ public class Transaction {
     public Long getId() {
         return id;
     }
+
+    public Transaction(UUID ownerId, String description, BigDecimal value, String category, LocalDateTime createdAt) {
+        this(description, value, category, createdAt);
+        this.ownerId = java.util.Objects.requireNonNull(ownerId, "An owner is required for a new transaction.");
+    }
+
+    @JsonIgnore
+    public UUID getOwnerId() { return ownerId; }
 
     public String getDescription() {
         return description;
