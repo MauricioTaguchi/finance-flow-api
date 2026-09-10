@@ -3,6 +3,9 @@ package com.financeflow.service;
 import com.financeflow.entity.Transaction;
 import com.financeflow.event.TransactionCreatedEvent;
 import com.financeflow.repository.TransactionRepository;
+import com.financeflow.security.CurrentPrincipal;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,13 +19,16 @@ public class TransactionService {
 
     private final TransactionRepository repository;
     private final ApplicationEventPublisher eventPublisher;
+    private final CurrentPrincipal current;
 
     public TransactionService(
             TransactionRepository repository,
-            ApplicationEventPublisher eventPublisher
+            ApplicationEventPublisher eventPublisher,
+            CurrentPrincipal current
     ) {
         this.repository = repository;
         this.eventPublisher = eventPublisher;
+        this.current = current;
     }
 
     @Transactional
@@ -33,6 +39,7 @@ public class TransactionService {
             String notificationType
     ) {
         Transaction transaction = new Transaction(
+                current.require().id(),
                 description,
                 value,
                 category,
@@ -53,14 +60,14 @@ public class TransactionService {
 
     @Transactional(readOnly = true)
     public List<Transaction> findAll() {
-        return repository.findAll();
+        return repository.findByOwnerIdOrderByIdDesc(current.require().id());
     }
 
     @Transactional(readOnly = true)
     public Transaction findById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Transação não encontrada: " + id
+        return repository.findByIdAndOwnerId(id, current.require().id())
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Transação não encontrada."
                 ));
     }
 }

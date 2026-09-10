@@ -6,5 +6,8 @@ target/
 .project
 .settings/
 .env
+data/
+*.mv.db
+*.trace.db
 *.log
 .DS_Store
